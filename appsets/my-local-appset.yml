@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: my-base-appset
+  name: my-local-appset
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,7 +14,9 @@ spec:
       - path: apps/*/base
   template:
     metadata:
-      name: '{{index .path.segments 1}}-{{index .path.segments 3}}'     
+      name: '{{index .path.segments 1}}-{{index .path.segments 3}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io   
     spec:
       # The project the application belongs to.
       project: default

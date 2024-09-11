@@ -8,11 +8,11 @@ resources:
 - my-dynamic-pv.yaml
 - ../../base
 
-commonLabels:
-  someLabelName: someLabelValueDev
-  myEnv: my-dev-label
+# commonLabels:
+#   someLabelName: someLabelValueDev
+#   myEnv: my-dev-label
 
-# namespace: my-dev-namespace
+namespace: my-dev-namespace
 
 configMapGenerator:
 - name: myconfigmap
