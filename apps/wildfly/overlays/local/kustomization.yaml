@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-# - namespace.yaml
+- namespace.yaml
 # - my-pv.yaml
 # - my-pvc.yaml
 # - my-dynamic-pv.yaml
@@ -12,7 +12,7 @@ resources:
 #   someLabelName: someLabelValueDev
 #   myEnv: my-dev-label
 
-# namespace: my-local-namespace
+namespace: wildfly-local
 
 configMapGenerator:
 - name: myconfigmap
