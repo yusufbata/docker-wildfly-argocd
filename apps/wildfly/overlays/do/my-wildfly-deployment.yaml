@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wildfly-deployment
+spec:
+  replicas: 1
+  # template:
+  #   metadata:
+  #     labels:
+  #       app: wildfly
+  #   spec:
+  #     containers:
+  #       - name: wildfly
+  #         image: yusufbata/docker-wildfly:prod-0.1.22
+  #         volumeMounts:
+  #           # - mountPath: /opt/jboss/wildfly/standalone/configuration/external
+  #           #   name: my-env-config
+  #           - mountPath: /opt/jboss/wildfly/standalone/configuration/external
+  #             name: my-env-configmap-volume
+  #           - mountPath: /opt/jboss/wildfly/standalone/deployments/static
+  #             name: my-static-content
+  #         envFrom:
+  #           - configMapRef:
+  #               name: myconfigmap
+  #         env:
+  #           - name: WILDFLY_ADMIN_USER
+  #             value: admin
+  #           - name: WILDFLY_ADMIN_PASSWORD
+  #             value: admin
+  #           - name: AUTH_ADDRESS
+  #             # value: "10.99.104.252"
+  #             value: "auth-service.default"
+  #           - name: wildfly_FOLDER
+  #             value: wildfly
+  #         command: ["bash", "-c"]
+  #         args:
+  #         - |
+  #           /opt/jboss/wildfly/bin/add-user.sh ${WILDFLY_ADMIN_USER} ${WILDFLY_ADMIN_PASSWORD} --silent
+  #           /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
+  #     volumes:
+  #       - name: my-env-config
+  #         # emptyDir: {}
+  #         persistentVolumeClaim:
+  #           claimName: my-dynamic-host-pvc
+  #       - name: my-static-content
+  #         persistentVolumeClaim:
+  #           claimName: my-dynamic-host-pvc
+  #       - name: my-env-configmap-volume
+  #         configMap:
+  #           # Provide the name of the ConfigMap you want to mount to the volume.
+  #           name: my-env-configmap

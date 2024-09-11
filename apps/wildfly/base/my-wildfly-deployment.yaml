@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wildfly-service
+spec:
+  selector:
+    app: wildfly
+  type: ClusterIP
+  ports:
+    - name: web
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: admin-console
+      protocol: TCP
+      port: 9990
+      targetPort: 9990
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wildfly-deployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: wildfly
+  template:
+    metadata:
+      labels:
+        app: wildfly
+    spec:
+      securityContext:
+        # runAsUser: 1000
+        # runAsGroup: 1000
+        # All processes of the container are also part of the supplementary Group ID 1000 (jboss).
+        # The owner for volumes and any files created in that volume will be Group ID 1000.
+        fsGroup: 1000
+      initContainers:
+        - name: init-static-content
+          # image: busybox:1.36.1
+          image: yusufbata/docker-wildfly-static-content:0.3
+          # command: ["/bin/sh", "-c", "cp /my-static-content /my-mount/wildfly-static-content"]
+          # command: ['sh', '-c', 'echo The app is running!']
+          command: ["sh", "-c", "ls /my-static-content && cp /my-static-content/* /my-mount/wildfly-static-content"]
+          volumeMounts:
+            - mountPath: /my-mount/wildfly-static-content
+              name: my-static-content
+      containers:
+        - name: wildfly
+          image: yusufbata/docker-wildfly:prod-0.1.22
+          # securityContext:
+            # runAsUser: 1000
+            # runAsGroup: 1000
+            # fsGroup: 1000
+          volumeMounts:
+            # - mountPath: /opt/jboss/wildfly/standalone/configuration/external
+            #   name: my-env-config
+            - mountPath: /opt/jboss/wildfly/standalone/configuration/external
+              name: my-env-configmap-volume
+            - mountPath: /opt/jboss/wildfly/standalone/deployments/static
+              name: my-static-content
+          envFrom:
+            - configMapRef:
+                name: myconfigmap
+          env:
+            - name: WILDFLY_ADMIN_USER
+              value: admin
+            - name: WILDFLY_ADMIN_PASSWORD
+              value: admin
+            - name: AUTH_ADDRESS
+              # value: "10.99.104.252"
+              value: "auth-service.default"
+            - name: wildfly_FOLDER
+              value: wildfly
+            # - name: STORY_FOLDER
+            #   valueFrom: 
+            #     configMapKeyRef:
+            #       name: data-store-env
+            #       key: folder
+          command: ["bash", "-c"]
+          args:
+          - |
+            /opt/jboss/wildfly/bin/add-user.sh ${WILDFLY_ADMIN_USER} ${WILDFLY_ADMIN_PASSWORD} --silent
+            /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0 -c my-standalone.xml -P ./wildfly/standalone/configuration/external/datasource-local.properties
+      volumes:
+        # - name: my-env-config
+        #   # emptyDir: {}
+        #   # hostPath:
+        #   #   path: /Users/F3657051/dev/docker/docker-wildfly/docker/env-config
+        #   #   type: Directory
+        #   persistentVolumeClaim:
+        #     claimName: my-host-pvc
+        - name: my-static-content
+          persistentVolumeClaim:
+            claimName: my-dynamic-host-pvc
+          # hostPath:
+          #   path: /Users/F3657051/dev/docker/docker-wildfly/static-content
+          #   type: Directory
+        - name: my-env-configmap-volume
+          configMap:
+            # Provide the name of the ConfigMap you want to mount to the volume.
+            name: my-env-configmap

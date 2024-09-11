@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfigmap
+data:
+  POSTGRES_USER: postgres-dev
+  POSTGRES_PASSWORD: My01pass-dev
+
+  # Wildfly Datasource config
+  ds.system1.username: sa-dev
+  ds.system1.password: password-dev
+
+  MY_ENV_VARIABLE: MY_DEFAULT_ENV_VARIABLE_VALUE_FROM_BASE
+
+  

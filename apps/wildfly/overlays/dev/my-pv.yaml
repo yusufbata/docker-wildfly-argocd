@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-host-pv-dev
+spec:
+  capacity: 
+    storage: 100Mi
+  volumeMode: Filesystem
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /Users/F3657051/dev/docker/docker-wildfly/docker/env-config
+    type: Directory

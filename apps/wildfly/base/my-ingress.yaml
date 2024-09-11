@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: wildfly-service
+      port:
+        number: 8080
+  rules:
+    # Required entry in /etc/hosts file: <IP of ingress> myservicea.test
+    - host: myservicea.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wildfly-service
+                port:
+                  number: 8080
+    - host: myserviceb.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wildfly-service
+                port:
+                  number: 9990
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wildfly-service
+                port:
+                  number: 8080
+  # rules:
+  # - host: "localhost"
+  #   http:
+  #     paths:
+  #     - path: /testpath
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: wildfly-service
+  #           port:
+  #             number: 80
