@@ -11,7 +11,7 @@ spec:
       repoURL: https://github.com/yusufbata/docker-wildfly-argocd.git
       revision: HEAD
       directories:
-      - path: apps/*/base
+      - path: apps/*/overlays/local
   template:
     metadata:
       name: '{{index .path.segments 1}}-{{index .path.segments 3}}'
