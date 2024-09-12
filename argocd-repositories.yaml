@@ -8,6 +8,67 @@ metadata:
 stringData:
   type: git
   url: https://github.com/yusufbata/docker-wildfly-argocd.git
+  name: my-private-repo
   # password: my-password
   # username: my-username
+  insecure: "true" # Ignore validity of server's TLS certificate. Defaults to "false"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-appsets-repo-jetstack
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  # type: git
+  url: https://charts.jetstack.io
+  type: helm
+  name: jetstack
+  # password: my-password
+  # username: my-username
+  insecure: "true" # Ignore validity of server's TLS certificate. Defaults to "false"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-appsets-repo-ingress-nginx
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  # type: git
+  url: https://kubernetes.github.io/ingress-nginx
+  type: helm
+  name: ingress-nginx
+  # password: my-password
+  # username: my-username
+  insecure: "true" # Ignore validity of server's TLS certificate. Defaults to "false"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-appsets-repo-ingress-nginx-github
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/kubernetes/ingress-nginx/
+  name: ingress-nginx-github
+  # password: my-password
+  # username: my-username
+  insecure: "true" # Ignore validity of server's TLS certificate. Defaults to "false"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: istio-helm-repo
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  url: https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
+  name: istio.io
+  type: helm
   insecure: "true" # Ignore validity of server's TLS certificate. Defaults to "false"

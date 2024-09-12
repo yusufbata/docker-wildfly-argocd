@@ -4,6 +4,12 @@ argocd declarative configuration for docker-wildfly project
 kubectl apply -f root-argocd-app.yml
 kubectl delete -f root-argocd-app.yml
 
+# Install cluster common applications
+kubectl apply -f appsets/my-cluster-common.yaml
+kubectl delete -f appsets/my-cluster-common.yaml
+
+
+
 # Install all applications in local environment only (using argocd appset)
 kubectl apply -f appsets/my-local-appset.yml
 kubectl delete -f appsets/my-local-appset.yml
@@ -52,3 +58,8 @@ curl -Li http://myserviceb.test
 - Install cert manager as app
 - Install argocd
 - Install ingress-nginx
+
+
+argocd repo add --insecure-skip-server-verification https://artifacthub.io/packages/search?org=cert-manager
+
+argocd repo add --insecure-skip-server-verification https://artifacthub.io/packages/search?org=cert-manager
