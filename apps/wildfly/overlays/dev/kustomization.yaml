@@ -30,7 +30,23 @@ patches:
   patch: |
     - op: replace
       path: /spec/ports/0/port
-      value: 8089
+      value: 8080
+- target:
+      kind: Ingress
+      name: my-ingress-tls
+  patch: |
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: myservicea.dev
+    - op: replace
+      path: /spec/tls/0/hosts/1
+      value: myserviceb.dev
+    - op: replace
+      path: /spec/rules/0/host
+      value: myservicea.dev
+    - op: replace
+      path: /spec/rules/1/host
+      value: myserviceb.dev
 # - target:
 #     kind: PersistentVolume
 #     name: my-host-pv-base

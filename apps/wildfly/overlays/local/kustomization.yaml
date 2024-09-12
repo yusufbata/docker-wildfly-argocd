@@ -30,7 +30,7 @@ patches:
   patch: |
     - op: replace
       path: /spec/ports/0/port
-      value: 8088
+      value: 8080
 # - target:
 #     kind: PersistentVolume
 #     name: my-host-pv-base
