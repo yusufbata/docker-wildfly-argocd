@@ -47,3 +47,8 @@ rm testRootCA.crt
 Test (without including local --cacert parameter from k8):
 curl -Li http://myservicea.test
 curl -Li http://myserviceb.test
+
+# TODO
+- Install cert manager as app
+- Install argocd
+- Install ingress-nginx
