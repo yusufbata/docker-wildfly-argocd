@@ -20,17 +20,17 @@ configMapGenerator:
   literals:
   - MY_ENV_VARIABLE=MY_LOCAL_VALUE
 
-patches:
+# patches:
 # - path: my-wildfly-deployment.yaml
 # - path: my-pvc.yaml
 # patch to update port numbers for services on local machine
-- target:
-      kind: Service
-      name: wildfly-service
-  patch: |
-    - op: replace
-      path: /spec/ports/0/port
-      value: 8080
+# - target:
+#       kind: Service
+#       name: wildfly-service
+#   patch: |
+#     - op: replace
+#       path: /spec/ports/0/port
+#       value: 8080
 # - target:
 #     kind: PersistentVolume
 #     name: my-host-pv-base
