@@ -22,3 +22,6 @@ kubectl delete -k apps/wildfly/overlays/dev
 ## Install local certificate manager
 kubectl apply -k ingress-controller/local-certificate-manager
 
+kubectl get secret test-ca-secret -n wildfly-local
+kubectl describe secret test-ca-secret -n wildfly-local
+kubectl -n wildfly-local get secret mywildfly-cert
