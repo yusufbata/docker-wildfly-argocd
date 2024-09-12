@@ -19,4 +19,6 @@ kubectl delete -k apps/wildfly/overlays/local
 kubectl delete -k apps/wildfly/overlays/dev
 
 # For local machine!!!
+## Install local certificate manager
 kubectl apply -k ingress-controller/local-certificate-manager
+

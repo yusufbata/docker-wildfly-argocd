@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+# - namespace.yaml
+- cert-manager-self-signed-issuer.yaml
+- cert-manager-ca-cert.yaml
+- cert-manager-ca-issuer.yaml
+# - test-server-cert.yaml
+# - echo-server.yaml
